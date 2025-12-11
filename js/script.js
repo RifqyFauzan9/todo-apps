@@ -147,13 +147,24 @@ function removeTaskFromCompleted(todoId /* HTMLELement */) {
 }
 
 function undoTaskFromCompleted(todoId /* HTMLELement */) {
-
     const todoTarget = findTodo(todoId);
     if (todoTarget == null) return;
 
     todoTarget.isCompleted = false;
     document.dispatchEvent(new Event(RENDER_EVENT));
     saveData();
+}
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.innerText = message;
+
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 2500);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -171,7 +182,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener(SAVED_EVENT, () => {
-    console.log('Data berhasil di simpan.');
+    console.log('Data berhasil disimpan');
+
+    showToast('Data berhasil disimpan.');
 });
 
 document.addEventListener(RENDER_EVENT, function () {
